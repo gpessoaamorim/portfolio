@@ -2266,7 +2266,7 @@ span {
 
 
 .read-more-buttons{
-	padding: 3px 3px;
+	padding: 1px 1px;
 	font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
 	border-radius: 5px;
 	color: #3D3D3D;
@@ -2298,5 +2298,7 @@ span {
 
   .badge-secondary{
 	background: brown;
-	color: white
+	color: white;
+	padding: 4px 4px;
+	border-radius: 10px
   }
