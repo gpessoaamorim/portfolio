@@ -1,0 +1,732 @@
+---
+title: "Module 2 assignment -  Statistical Analysis Presentation"
+author: "Guilherme Amorim"
+date: "2024-10-17"
+output: pdf_document
+---
+
+# Initial setup
+
+```{r include=FALSE}
+
+knitr::opts_chunk$set(warning=FALSE, message = FALSE)
+
+
+```
+
+## Load libraries
+```{r, message=F}
+
+library(haven) # load .sav files
+
+library(tidyverse) # data manipulation and visualisation
+
+library(magrittr) # pipe operator for data manipulation
+
+library(patchwork) # merging plots
+
+library(DescTools) # pre-built function to calculate mode
+
+library(gmodels) # contigency tables
+
+library(flextable) # rendering tables
+
+```
+
+## Load data
+
+```{r}
+
+data<-read_sav("Dataset/HSE 2011.sav")
+
+```
+
+# Data exploration
+
+## General dataset features
+```{r}
+
+colnames(data) #  variable names
+
+dim(data) # number rows and columns
+
+str(data) # general features of each variable
+
+head(data) # first 6 rows 
+
+```
+
+The data includes 58 columns and 10617 rows (observations). The main variables of interest for subsequent analyses are:   
+- HHSize (household size)
+- Sex
+- Age (age at last birthday)
+- topqual3 (Highest Educational Qualification)
+- totinc (Total Household Income)
+- marstatc (Marital status including cohabitees)
+- htval (Valid height (cm))
+- wtval (Valid weight (Kg) inc. estimated>130kg)
+- bmival (Valid BMI)
+- dnnow (Whether drink nowadays)
+- totalwu (total units of alcohol/week)
+- gor1 (Government Office Region - numeric)
+
+
+
+## Restrict dataset to variables of interest and rename them
+
+```{r}
+data%<>%
+  select(age=Age,
+         sex=Sex,
+         household_size=HHSize,
+         education=topqual3,
+         household_income=totinc,
+         marital_status=marstatc,
+         height=htval,
+         weight=wtval,
+         bmi=bmival,
+         drinks=dnnow,
+         alcohol_units=totalwu,
+         region=gor1)
+
+```
+
+# Descriptive statistics
+
+### Age
+
+```{r}
+noquote("Summary statistics:")
+summary(data$age)
+
+noquote("Standard deviation:")
+sd(data$age)
+
+noquote(paste("Mode:", Mode(data$age)))
+
+
+# calculate mode
+noquote(paste0("Mode: ", round(with(density(data$age, na.rm = T), x[which.max(y)]),2))) ##   kernel density estimate
+
+p1<-data%>%
+  ggplot(aes(age))+
+  geom_histogram(color="black")+
+  theme(axis.title.x = element_blank())+
+  labs(y="Count")
+
+p2<-data%>%
+  ggplot(aes(age))+
+  geom_density(color="black")+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.x = element_blank())+
+  labs(y="Density")
+  
+p3<-data%>%
+  ggplot(aes(age))+
+  geom_boxplot(color="black")+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())+
+  scale_x_continuous(breaks=seq(0,100,10))+
+  labs(x="Age (at last birthday)")
+
+
+  
+
+p1/p2/p3+plot_layout(nrow = 3, heights = c(2, 1,1))->age_plot
+
+age_plot
+
+ggsave("Outputs/age_plot.png",
+       width = 15,
+       height=10,
+       units="cm")
+
+```
+
+
+### Sex
+
+```{r}
+
+table(data$sex)
+
+attr(data$sex, "labels")
+
+data%>%
+  ggplot(aes(as_factor(sex), fill=as_factor(sex)))+
+  geom_text(stat="count",aes(label=paste0(after_stat(count), " (", round(after_stat(count)/length(data$sex)*100,1), "%)")),
+            vjust=-0.2)+
+  geom_bar()+
+  labs(x="Sex",
+       y="Count")+
+  theme(legend.position = "none")->sex_plot
+
+sex_plot
+
+ggsave("Outputs/sex_plot.png")
+
+```
+
+
+### Marital status
+
+```{r}
+table(data$marital_status)
+
+attr(data$marital_status, "labels")
+
+
+data%>%
+  ggplot(aes(as_factor(marital_status), fill=as_factor(marital_status)))+
+  geom_bar()+
+  geom_text(stat="count",aes(label=paste0(after_stat(count), "\n(", round(after_stat(count)/length(data$marital_status)*100,1), "%)")),
+            vjust=-0.2)+
+  
+  labs(x="Marital status",
+       y="Count")+
+  theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1),
+        legend.position = "none")+
+  scale_y_continuous(expand=expansion(c(0,0.5)))->marital_status_plot
+
+marital_status_plot
+
+ggsave("Outputs/marital_status_plot.png")
+
+
+```
+
+
+### Education
+```{r}
+table(as_factor(data$education))
+
+attr(data$education, "labels")
+
+
+data%>%
+  ggplot(aes(as_factor(education), fill=as_factor(education)))+
+  geom_bar()+
+  geom_text(stat="count",aes(label=paste0(after_stat(count), "\n(", round(after_stat(count)/length(data$education)*100,1), "%)")),
+            vjust=-0.2)+
+  
+  labs(x="Highest educational level achieved",
+       y="Count")+
+  theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1, size=7),
+        legend.position = "none",
+        plot.margin = unit(c(0, 0, 0, 1),"cm"))+
+  scale_y_continuous(expand=expansion(c(0,0.3)))->education_plot
+
+education_plot
+
+ggsave("Outputs/education_plot.png",
+       width = 15,
+       height=10,
+       units = "cm")
+
+```
+
+### Height
+```{r}
+
+summary(data$height)
+
+
+p1<-data%>%
+  ggplot(aes(height))+
+  geom_histogram(color="black")+
+  theme(axis.title.x = element_blank())+
+  labs(y="Count")
+
+p2<-data%>%
+  ggplot(aes(height))+
+  geom_boxplot(color="black")+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())+
+  labs(x="Height (in cm)")
+  
+
+p1/p2+plot_layout(nrow = 2, heights = c(2, 1))->height_plot
+
+height_plot
+
+ggsave("Outputs/height_plot.png")
+
+```
+
+### Weight
+```{r}
+
+summary(data$weight)
+
+
+p1<-data%>%
+  ggplot(aes(weight))+
+  geom_histogram(color="black")+
+  theme(axis.title.x = element_blank())+
+  labs(y="Count")
+
+p2<-data%>%
+  ggplot(aes(weight))+
+  geom_boxplot(color="black")+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())+
+  labs(x="Weight (in kg)")
+  
+
+p1/p2+plot_layout(nrow = 2, heights = c(2, 1))->weight_plot
+
+weight_plot
+
+ggsave("Outputs/weight_plot.png")
+
+```
+
+### BMI
+```{r}
+noquote("Summary statistics:")
+summary(data$bmi)
+
+noquote(paste("Standard deviation:", sd(data$bmi, na.rm = T)))
+
+
+# calculate mode
+noquote(paste0("Mode: ", round(with(density(data$bmi, na.rm = T), x[which.max(y)]),2))) ##   kernel density estimate
+
+
+p1<-data%>%
+  ggplot(aes(bmi))+
+  geom_histogram(color="black")+
+  theme(axis.title.x = element_blank())+
+  labs(y="Count")+
+  scale_x_continuous(breaks = seq(10,60,10))
+
+p2<-data%>%
+  ggplot(aes(bmi))+
+  geom_boxplot(color="black")+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.x = element_blank())+
+  scale_x_continuous(breaks = seq(10,60,10))
+
+p3<-data%>%
+  ggplot(aes(bmi))+
+  geom_density(color="black")+
+  scale_x_continuous(breaks = seq(10,60,10))+
+  labs(y="Density",
+       x="BMI")
+  
+
+p1/p2/p3+plot_layout(nrow = 3, heights = c(2, 1,1))->bmi_plot
+
+bmi_plot
+
+ggsave("Outputs/bmi_plot.png")
+
+
+
+```
+
+### Household size
+```{r}
+
+table(data$household_size)
+
+
+noquote("Summary statistics:")
+summary(data$household_size)
+
+noquote(paste("Standard deviation:", sd(data$household_size, na.rm = T)))
+
+data%>%
+  ggplot(aes(household_size))+
+  geom_bar(color="black")+
+   geom_text(stat="count",aes(label=paste0(after_stat(count), "\n(", round(after_stat(count)/length(data$household_size)*100,1), "%)")),
+            vjust=-0.2,
+            size=3)+
+  scale_x_continuous(limits=c(0,NA), breaks=seq(1,10,1))+
+  labs(x="Household size",
+       y="Count")+
+    scale_y_continuous(expand=expansion(c(0,0.2)))->household_size_plot
+
+household_size_plot
+
+ggsave("Outputs/household_size_plot.png")
+
+
+```
+
+### Household income
+```{r}
+
+summary(data$household_income)
+
+
+p1<-data%>%
+  ggplot(aes(household_income))+
+  geom_histogram(color="black")+
+  theme(axis.title.x = element_blank())+
+  labs(y="Count")
+
+p2<-data%>%
+  ggplot(aes(household_income))+
+  geom_boxplot(color="black")+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())+
+  labs(x="Household income")
+  
+
+p1/p2+plot_layout(nrow = 2, heights = c(2, 1))->household_income_plot
+
+household_income_plot
+
+ggsave("Outputs/household_income_plot.png")
+
+```
+
+### Region
+```{r}
+
+
+data%>%
+  ggplot(aes(as_factor(region), fill=as_factor(region)))+
+  geom_bar()+
+  geom_text(stat="count",aes(label=paste0(after_stat(count), "\n(", round(after_stat(count)/length(data$region)*100,1), "%)")),
+            vjust=-0.2)+
+  
+  labs(x="Region (within England)",
+       y="Count")+
+  theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1),
+        legend.position = "none")+
+  scale_y_continuous(expand=expansion(c(0,0.3)))->region_plot
+
+region_plot
+
+ggsave("Outputs/region_plot.png")
+```
+
+### Current drinker
+```{r}
+
+
+data%>%
+  ggplot(aes(as_factor(drinks), fill=as_factor(drinks)))+
+  geom_text(stat="count",aes(label=paste0(after_stat(count), " (", round(after_stat(count)/length(data$drinks)*100,1), "%)")),
+            vjust=-0.2)+
+  geom_bar()+
+  labs(x="Current drinker",
+       y="Count")+
+  theme(legend.position = "none")->drinks_plot
+
+drinks_plot
+
+ggsave("Outputs/drinks_plot.png")
+
+```
+## Units of alcohol per week
+
+```{r}
+
+
+summary(data$alcohol_units)
+
+
+p1<-data%>%
+  ggplot(aes(alcohol_units))+
+  geom_histogram(color="black")+
+  theme(axis.title.x = element_blank())+
+  labs(y="Count")
+
+p2<-data%>%
+  ggplot(aes(alcohol_units))+
+  geom_boxplot(color="black")+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())+
+  labs(x="Alcohol units (per week)")
+  
+
+p1/p2+plot_layout(nrow = 2, heights = c(2, 1))->alcohol_units_plot
+
+alcohol_units_plot
+
+ggsave("Outputs/alcohol_units_plot.png")
+
+
+```
+
+# Inferential statistics
+
+## Which gender drinks more alcohol
+
+```{r}
+
+# plot (barchart)
+data%>%
+  filter(!is.na(drinks))%>%
+  count(as_factor(sex), as_factor(drinks))%>%
+  group_by(`as_factor(sex)`)%>%
+  mutate(prop=round(n/sum(n)*100,1))%>%
+  rename(Sex=`as_factor(sex)`,
+         `Current drinker` = `as_factor(drinks)`)%>%
+  
+  ggplot(aes(Sex, y=prop,fill=fct_rev(`Current drinker`)))+
+  geom_col()+
+  labs(x="Sex",
+       y="Proportion",
+       fill="Current drinker")+
+  guides(fill = guide_legend(reverse = TRUE))+
+  geom_text(data=.%>%filter(`Current drinker`=="Yes"), 
+            aes(x=Sex, y=prop, label=paste0(n, " (", prop, "%)")),
+            vjust=-0.1)+
+  theme(legend.position = "bottom")
+
+ggsave("Outputs/drinking_vs_sex.png",
+       width=20,
+       height=20,
+       units="cm")
+
+# contingency table
+
+CrossTable(data$sex, 
+           data$drinks,
+           prop.c = F,
+prop.r = T,
+prop.t=F,
+prop.chisq = F,
+chisq = F,
+format="SPSS")
+
+
+# run test
+
+chisq.test(data$drinks, data$sex)
+
+
+```
+
+
+## Which region drinks more alcohol
+
+```{r}
+
+# plot
+data%>%
+  filter(!is.na(drinks))%>%
+  count(as_factor(region), as_factor(drinks))%>%
+  group_by(`as_factor(region)`)%>%
+  mutate(prop=round(n/sum(n)*100,1))%>%
+  rename(Region=`as_factor(region)`,
+         `Current drinker` = `as_factor(drinks)`)%>%
+  
+  ggplot(aes(Region, y=prop,fill=fct_rev(`Current drinker`)))+
+  geom_col()+
+  labs(x="Region",
+       y="Proportion",
+       fill="Current drinker")+
+  guides(fill = guide_legend(reverse = TRUE))+
+  geom_text(data=.%>%filter(`Current drinker`=="Yes"), 
+            aes(x=Region, y=prop, label=paste0(n, "\n(", prop, "%)")),
+            vjust=-0.1)+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle=30, hjust=1,vjust=1))
+
+ggsave("Outputs/drinking_vs_region.png",
+       width=20,
+       height=20,
+       units="cm")
+
+
+
+# contingency table
+
+CrossTable(data$region, 
+           data$drinks,
+           prop.c = F,
+prop.r = T,
+prop.t=F,
+prop.chisq = F,
+chisq = F,
+format="SPSS")
+
+
+
+# run test
+chisq.test(data$drinks, data$region)
+
+
+
+```
+
+## Difference in height between men and women
+
+```{r}
+
+# Plot
+p1<-data%>%
+  select(height, sex)%>%
+  ggplot(aes(height, group=as_factor(sex), fill=as_factor(sex)))+
+  geom_histogram(alpha=0.5,
+                 color="black",
+                 bins=50)+
+  labs(x="Height in cm (valid)",
+       y="Count",
+       fill="Sex")+
+  theme(legend.position = "none",
+        axis.title.x = element_blank())
+
+p2<-data%>%
+  select(height, sex)%>%
+  ggplot(aes(height, y=as_factor(sex),group=as_factor(sex), fill=as_factor(sex)))+
+  geom_boxplot(color="black")+
+  labs(x="Height in cm (valid)",
+       y="Sex",
+       fill="Sex")+
+  theme(legend.position = "bottom")
+
+p1/p2
+
+ggsave("Outputs/height_by_sex.png",
+       width=20,
+       height=20,
+       units="cm")
+
+
+# test for normality
+
+ks.test(data$height, "pnorm")
+
+
+# Table
+data%>%
+  select(height, sex)%>%
+  filter(!is.na(height))%>%
+  group_by(as_factor(sex))%>%
+  summarise(Minimum=min(height),
+            Mean=round(mean(height),1),
+            SD = round(sd(height),1),
+            Median=round(median(height),1),
+            Q1 = round(quantile(height, .25),1),
+            Q3 = round(quantile(height, .75),1),
+            Maximum=round(max(height),1))%>%
+  rename(Sex=`as_factor(sex)`)->height_by_sex_summary_table
+
+
+height_by_sex_summary_table
+
+write_csv(height_by_sex_summary_table, "Outputs/height_by_sex_summary_table.csv")
+
+# Test
+
+## non-parametric wilcoxon independent samples test
+wilcox.test(height~sex, data)
+       
+
+```
+
+
+## Difference in weight between men and women
+
+```{r}
+
+
+
+# Plot
+p1<-data%>%
+  select(weight, sex)%>%
+  ggplot(aes(weight, group=as_factor(sex), fill=as_factor(sex)))+
+  geom_histogram(alpha=0.5,
+                 color="black",
+                 bins=50)+
+  labs(x="Weight in kg (valid)",
+       y="Count",
+       fill="Sex")+
+  theme(legend.position = "none",
+        axis.title.x = element_blank())
+
+p2<-data%>%
+  select(weight, sex)%>%
+  ggplot(aes(weight, y=as_factor(sex),group=as_factor(sex), fill=as_factor(sex)))+
+  geom_boxplot(color="black")+
+  labs(x="Weight in cm (valid)",
+       y="Sex",
+       fill="Sex")+
+  theme(legend.position = "bottom")
+
+p1/p2
+
+ggsave("Outputs/weight_by_sex.png",
+       width=20,
+       height=20,
+       units="cm")
+
+
+# test for normality
+
+ks.test(data$weight, "pnorm")
+
+
+
+
+# Table
+data%>%
+  select(weight, sex)%>%
+  filter(!is.na(weight))%>%
+  group_by(as_factor(sex))%>%
+  summarise(Minimum=min(weight),
+            Mean=round(mean(weight),1),
+            SD = round(sd(weight),1),
+            Median=round(median(weight),1),
+            Q1 = round(quantile(weight, .25),1),
+            Q3 = round(quantile(weight, .75),1),
+            Maximum=round(max(weight),1))%>%
+  rename(Sex=`as_factor(sex)`)->weight_by_sex_summary_table
+
+
+weight_by_sex_summary_table
+
+write_csv(weight_by_sex_summary_table, "Outputs/weight_by_sex_summary_table.csv")
+
+# Test
+
+## parametric independent samples  t-test 
+t.test(weight~sex, data, var.equal=T)
+
+## non-parametric wilcoxon independent samples test
+wilcox.test(weight~sex, data)
+
+
+
+```
+
+## correlation between whether a person drinks nowadays, total household income, age at last birthday and gender?
+
+```{r}
+
+mycor<- function(x,...){
+  r<- apply(x, 2, function(j){
+    apply(x, 2, function(i){
+      as.numeric(cor.test(i,j,...)$estimate)
+    })
+  })
+  P<- apply(x, 2, function(j){
+    apply(x, 2, function(i){
+      as.numeric(cor.test(i,j,...)$p.value)
+    })
+  })
+  out<-c()
+  out$P<- P
+  out$r<- r
+  return(out) 
+}
+
+myCorDat<- mycor(data%>%
+                   select(drinks, household_income, age, sex)%>%
+                   mutate(drinks=case_when(drinks==1 ~ 1,
+                                           drinks==2 ~ 0)), 
+                 method="pearson", na.action=na.omit)
+
+myCorDat
+
+
+
+```
