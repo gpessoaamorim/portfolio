@@ -39,6 +39,13 @@
 * 	Template Style 
 *	Edit this section
 *
+* default pastel palette: 
+#a26360 (brown)
+#d4a29c (pink)
+#e8b298 (orange)
+#edcc8b (yellow)
+#bdd1c5 (green)
+#9daaa2 (grey)
 * ======================================================= */
 body {
 	font-family: "Quicksand", Arial, sans-serif;
@@ -58,7 +65,7 @@ body {
 }
 
 a {
-	color: #ff722c;
+	color: brown;
 	-webkit-transition: 0.5s;
 	-o-transition: 0.5s;
 	transition: 0.5s;
@@ -127,17 +134,17 @@ figure figcaption {
 
 ::-webkit-selection {
 	color: #fff;
-	background: #ff722c;
+	background: brown; /* NOTES: color of selected/highlighted text*/
 }
 
 ::-moz-selection {
 	color: #fff;
-	background: #ff722c;
+	background: brown; /* NOTES: color of selected/highlighted text*/
 }
 
 ::selection {
 	color: #fff;
-	background: #ff722c;
+	background: brown; /* NOTES: color of selected/highlighted text*/
 }
 
 #colorlib-page {
@@ -265,7 +272,7 @@ figure figcaption {
 	bottom: 7px;
 	left: 0;
 	right: 0;
-	background-color: #ff722c;
+	background-color: brown;
 	visibility: hidden;
 	-webkit-transform: scaleX(0);
 	-moz-transform: scaleX(0);
@@ -334,7 +341,7 @@ figure figcaption {
 	padding: 4px;
 }
 #colorlib-aside .colorlib-footer h3 a {
-	color: #ff722c;
+	color: brown;
 	font-size: 18px;
 }
 #rcorners2 {
@@ -429,7 +436,7 @@ figure figcaption {
 #colorlib-hero .flexslider .flex-control-nav li a.flex-active {
 	cursor: pointer;
 	background: transparent;
-	border: 2px solid #ff722c;
+	border: 2px solid brown;
 }
 #colorlib-hero .flexslider .flex-direction-nav {
 	display: none;
@@ -770,7 +777,7 @@ body.offcanvas .colorlib-nav-toggle {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	font-family: "Quicksand", Arial, sans-serif;
-	background-color: #ff722c;
+	background-color: brown;
 	color: #fff;
 	position: relative;
 	-webkit-box-shadow: none !important;
@@ -870,7 +877,7 @@ body.offcanvas .colorlib-nav-toggle {
 	display: block;
 	width: 40px;
 	height: 40px;
-	background: #ff722c;
+	background: brown;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	-ms-border-radius: 50%;
@@ -989,7 +996,7 @@ body.offcanvas .colorlib-nav-toggle {
 	-ms-box-shadow: 0px 0px 56px -8px rgba(0, 0, 0, 0.17);
 	-o-box-shadow: 0px 0px 56px -8px rgba(0, 0, 0, 0.17);
 	box-shadow: 0px 0px 56px -8px rgba(0, 0, 0, 0.17);
-	border-bottom: 2px solid #ff722c;
+	border-bottom: 2px solid brown;
 }
 .services .icon2 {
 	display: block;
@@ -997,7 +1004,7 @@ body.offcanvas .colorlib-nav-toggle {
 }
 .services .icon2 i {
 	font-size: 30px;
-	color: #ff722c;
+	color: brown;
 }
 .services h3 {
 	font-family: "Quicksand", Arial, sans-serif;
@@ -1055,7 +1062,7 @@ body.offcanvas .colorlib-nav-toggle {
 	height: 50px;
 	display: table;
 	margin: 0 auto;
-	background: #ff722c;
+	background: brown;
 }
 .services .icon:before,
 .services .icon:after {
@@ -1070,7 +1077,7 @@ body.offcanvas .colorlib-nav-toggle {
 	height: 0;
 	border-style: solid;
 	border-width: 0 50px 30px 50px;
-	border-color: transparent transparent #ff722c transparent;
+	border-color: transparent transparent brown transparent;
 }
 .services .icon:after {
 	bottom: -30px;
@@ -1078,7 +1085,7 @@ body.offcanvas .colorlib-nav-toggle {
 	height: 0;
 	border-style: solid;
 	border-width: 30px 50px 0 50px;
-	border-color: #ff722c transparent transparent transparent;
+	border-color: brown transparent transparent transparent;
 }
 .services .icon i {
 	font-size: 30px;
@@ -1156,7 +1163,7 @@ body.offcanvas .colorlib-nav-toggle {
 }
 
 .progress-bar {
-	background: #ff722c;
+	background: brown;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	font-size: 12px;
@@ -1177,7 +1184,7 @@ body.offcanvas .colorlib-nav-toggle {
 	width: 10px;
 	height: 10px;
 	content: "";
-	background: #ff722c;
+	background: brown;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	-ms-border-radius: 50%;
@@ -1189,13 +1196,13 @@ body.offcanvas .colorlib-nav-toggle {
 	right: -32px;
 }
 .progress-bar.color-1 {
-	background: #ff722c;
+	background: brown;
 }
 .progress-bar.color-1:after {
-	background: #ff722c;
+	background: brown;
 }
 .progress-bar.color-1 span {
-	color: #ff722c;
+	color: brown;
 }
 .progress-bar.color-2 {
 	background: #ec5453;
@@ -1298,7 +1305,7 @@ body.offcanvas .colorlib-nav-toggle {
 .colorlib-feature .colorlib-icon i {
 	display: table-cell;
 	vertical-align: middle;
-	color: #ff722c;
+	color: brown;
 	font-size: 20px;
 	height: 50px;
 }
@@ -1328,7 +1335,7 @@ body.offcanvas .colorlib-nav-toggle {
 	margin-top: 10px;
 }
 .colorlib-feature.colorlib-feature-sm .colorlib-icon i {
-	color: #ff722c;
+	color: brown;
 	font-size: 20px;
 }
 @media screen and (max-width: 1200px) {
@@ -1411,7 +1418,7 @@ body.offcanvas .colorlib-nav-toggle {
 	margin-left: 0;
 }
 .work-menu span a.active {
-	color: #ff722c;
+	color: brown;
 }
 
 .project {
@@ -1430,7 +1437,7 @@ body.offcanvas .colorlib-nav-toggle {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: #ff722c;
+	background: brown;
 	opacity: 0;
 	-webkit-transition: 0.3s;
 	-o-transition: 0.3s;
@@ -1567,7 +1574,7 @@ body.offcanvas .colorlib-nav-toggle {
 	width: 100px;
 	height: 100px;
 	font-size: 50px;
-	color: #ff722c;
+	color: brown;
 	background: #fff;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
@@ -1686,7 +1693,7 @@ body.offcanvas .colorlib-nav-toggle {
 .btn-primary {
 	background: #ec5453;
 	color: #fff;
-	border: 2px solid #ff722c;
+	border: 2px solid brown;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -2272,7 +2279,7 @@ span {
 
 .read-more-buttons{
 	padding: 1px 1px;
-	font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	border-radius: 5px;
 	color: #3D3D3D;
 	background: #fff;
