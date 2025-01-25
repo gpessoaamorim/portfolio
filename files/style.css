@@ -207,7 +207,7 @@ figure figcaption {
 	padding: 30px;
 }
 #colorlib-aside h1 {
-	font-family: "Raleway", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 }
 #colorlib-aside .position {
 	display: block;
@@ -464,7 +464,7 @@ figure figcaption {
 	margin: 0;
 	padding: 0;
 	color: black;
-	font-family: "Playfair Display", Georgia, serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 }
 #colorlib-hero .flexslider .slider-text > .slider-text-inner h1 {
 	margin-bottom: 20px;
@@ -685,7 +685,7 @@ body.offcanvas .colorlib-nav-toggle {
 	margin-bottom: 20px;
 	font-size: 38px;
 	font-weight: 600;
-	font-family: "Montserrat", Georgia, serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 }
 
 .hire {
