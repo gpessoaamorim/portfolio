@@ -10,8 +10,20 @@
 	font-style: normal;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap');
+
+
 * {
 	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
+
+	
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
+
+	
 }
 
 .dark-mode {
@@ -260,7 +272,7 @@ figure figcaption {
 	text-decoration: none;
 	position: relative;
 	padding: 10px 0;
-	font-family: "Montserrat", sans-serif;;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	-webkit-transition: 0.3s;
 	-o-transition: 0.3s;
 	transition: 0.3s;
@@ -366,7 +378,7 @@ figure figcaption {
 .container-wrap {
 	max-width: 1170px;
 	margin: 0 auto;
-	font-family: "Roboto", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 
 }
 
@@ -688,6 +700,11 @@ body.offcanvas .colorlib-nav-toggle {
 	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 }
 
+.about-desc {
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
+	}
+	
+
 .hire {
 	padding: 2em;
 	background: #f9bf3f;
@@ -776,7 +793,7 @@ body.offcanvas .colorlib-nav-toggle {
 	font-size: 14px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	font-family: "Quicksand", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	background-color: brown;
 	color: #fff;
 	position: relative;
@@ -1009,7 +1026,7 @@ body.offcanvas .colorlib-nav-toggle {
 	color: brown;
 }
 .services h3 {
-	font-family: "Quicksand", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	font-size: 16px;
 	font-weight: 500;
 }
@@ -1152,7 +1169,7 @@ body.offcanvas .colorlib-nav-toggle {
 
 .progress-wrap h3 {
 	font-size: 16px;
-	font-family: "Quicksand", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	margin-bottom: 10px;
 }
 
@@ -1383,7 +1400,7 @@ body.offcanvas .colorlib-nav-toggle {
 	line-height: auto;
 	font-weight: 500;
 	letter-spacing: 0.5px;
-	font-family: "Quicksand", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 }
 .blog-entry .desc h3 a {
 	text-decoration: none;
@@ -1475,7 +1492,7 @@ body.offcanvas .colorlib-nav-toggle {
 	color: #333333;
 }
 .project .desc h3 {
-	font-family: "Quicksand", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	font-size: 16px;
 	font-weight: 500;
 	text-transform: uppercase;
@@ -1590,7 +1607,7 @@ body.offcanvas .colorlib-nav-toggle {
 	font-size: 40px;
 	display: block;
 	color: black;
-	font-family: "Quicksand", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	width: 100%;
 	font-weight: 700;
 	margin-bottom: 0.3em;
@@ -1661,7 +1678,7 @@ body.offcanvas .colorlib-nav-toggle {
 .btn {
 	margin-right: 4px;
 	margin-bottom: 4px;
-	font-family: "Quicksand", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	font-size: 12px;
 	font-weight: 400;
 	text-transform: uppercase;
@@ -2151,7 +2168,7 @@ ul {
 }
 
 span {
-	font-family: "Montserrat", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
 	/* color: black; */
 	display: inline-block; /* change the display type           */
 	margin: 0 5px;
@@ -2316,3 +2333,17 @@ span {
 	padding: 4px 4px;
 	border-radius: 10px
   }
+
+  
+* {
+	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
+
+	
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
+
+	
+}
