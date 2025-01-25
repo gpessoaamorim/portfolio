@@ -2331,7 +2331,9 @@ span {
 	background: brown;
 	color: white;
 	padding: 4px 4px;
-	border-radius: 10px
+	border-radius: 10px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Mulish', sans-serif;
+
   }
 
   
